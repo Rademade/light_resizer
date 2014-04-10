@@ -1,4 +1,4 @@
 light-resizer
 =============
 
-Rails middleware for image resizer. Integrated with CarrierWave
+Rack middleware for image resizer. Can be integrated with CarrierWave.

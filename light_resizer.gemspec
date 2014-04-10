@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["olol.toor@gmail.com"]
   spec.summary       = %q{Tiny rack middleware for image resizing.}
   spec.description   = %q{}
-  spec.homepage      = "github.com/Rademade/light_resizer"
+  spec.homepage      = "http://github.com/Rademade/light_resizer"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "mini_magick", "~> 3.7.0"
   spec.add_dependency "rack", "~> 1.5.2"
-  
+
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
