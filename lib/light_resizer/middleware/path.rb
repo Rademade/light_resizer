@@ -3,31 +3,31 @@ module LightResizer
   class Middleware
     class Path
 
-      attr_accessor :request_path
+      attr_reader :request_path
 
-      def prepare_image_path(absolute_image_path)
-
+      def request_path=(path)
+        @request_path = path
+        @segments = nil
       end
-
 
       # {Bool} returns true if request path begins with 'image'
       def image_path?
-        splited_path[1] == 'resize_image'
+        segments[1] == 'resize_image'
       end
 
-      # {Array} returns required dimensions of image
-      # '/image/200x200/...'' => '200x200'
-      #todo validate params!
+      # {String} last part of request – relative path
+      def image_path
+        '/' + segments[3..-1].join('/')
+      end
+
+      # {Array} returns required dimensions of image. Like a 200x200
       def dimensions
-        splited_path[2]
+        #todo validate params!
+        segments[2]
       end
 
-      def splited_path
-        @splited_path ||= path.split('/')
-      end
-
-      def prepare_path(path)
-
+      def segments
+        @segments ||= request_path.split('/')
       end
 
     end

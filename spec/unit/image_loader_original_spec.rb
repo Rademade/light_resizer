@@ -1,42 +1,29 @@
 require 'spec_helper'
 
-describe LightResizer::Middleware do
-  let(:app) { AppEmulator.new }
-  let(:resizer) { described_class.new(app, ROOT, 'fixtures') }
-  let(:path) { File.join(ROOT, 'fixtures', '20x20_avatar.png') }
+describe LightResizer::ImageLoader::OriginalImage do
+
+  let(:root_dir) { File.join(ROOT, 'fixtures') }
+  let(:store_dir) { '/some/dir' }
+  let(:filename) { 'image.png' }
+  let(:image_full_path) { File.join(root_dir, store_dir, filename) }
+  let(:original_image) { described_class.new root_dir }
 
   before(:each) do
-    resizer.call(env)
+    original_image.relative_path = File.join(store_dir, filename)
   end
 
   context 'path methods' do
-    after do
-      File.delete(path)
-    end
 
-    let(:env) { { 'PATH_INFO' => '/image/20x20/avatar.png' } }
+    it { expect(original_image.send(:full_path)).to eq(image_full_path) }
 
-    it { expect(resizer.send(:splited_path)).to eq(['', 'image', '20x20', 'avatar.png']) }
+    it { expect(original_image.send(:dir_path)).to eq( File.join(root_dir, store_dir) ) }
 
-    it { expect(resizer.send(:dimensions)).to eq('20x20') }
+    it { expect(original_image.send(:filename)).to eq( filename ) }
 
-    it { expect(resizer.send(:is_image_path?)).to eq(true) }
+    it { expect(original_image.send(:relative_dir)).to eq(store_dir) }
 
-    it { expect(resizer.send(:path)).to eq('/image/20x20/avatar.png') }
+    it { expect(original_image.send(:image_exist?)).to eq(false) }
 
-    it { expect(resizer.send(:original_path)).to eq(File.join(ROOT, 'fixtures', 'avatar.png')) }
-
-    it { expect(resizer.send(:resized_image_filepath)).to eq(path) }
-
-    it { expect(resizer.send(:resized_image_path)).to eq('/20x20_avatar.png') }
-
-    it { expect(resizer.send(:image_exist)).to eq(true) }
   end
 
-  context 'with non image path' do
-
-    let(:env) { { 'PATH_INFO' => '/lalala/20x20/avatar.png' } }
-
-    it { expect(resizer.send(:is_image_path?)).to eq(false) }
-  end
 end

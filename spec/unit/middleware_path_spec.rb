@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe LightResizer::Middleware::Path do
 
-  let(:app) { AppEmulator.new }
   let(:path) { described_class.new }
 
   context 'valid path methods' do

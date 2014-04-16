@@ -1,7 +1,7 @@
 module LightResizer
   module CarrierWaveResize
     def resize(width, height)
-      start = "/image/#{width}x#{height}"
+      start = "/resize_image/#{width}x#{height}"
       File.join(start, url)
     end
   end

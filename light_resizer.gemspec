@@ -6,8 +6,8 @@ require 'light_resizer/version'
 Gem::Specification.new do |spec|
   spec.name          = "light_resizer"
   spec.version       = LightResizer::VERSION
-  spec.authors       = ["Denis Sergienko"]
-  spec.email         = ["olol.toor@gmail.com"]
+  spec.authors       = ["Denis Sergienko", "Vladislav Melanitskiy"]
+  spec.email         = ["olol.toor@gmail.com", "co@rademade.com"]
   spec.summary       = %q{Tiny rack middleware for image resizing.}
   spec.description   = %q{}
   spec.homepage      = "http://github.com/Rademade/light_resizer"

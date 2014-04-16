@@ -1,31 +1,21 @@
 require 'spec_helper'
 
-describe LightResizer::Middleware::Path do
+describe LightResizer::Middleware::Resizer do
 
-  let(:app) { AppEmulator.new }
-  let(:path) { described_class.new }
+  let(:resizer) { described_class.new }
+  let(:image_path) { File.join(ROOT, 'fixtures', 'avatar.png') }
+  let(:resize_image_path) { File.join(ROOT, 'fixtures', 'resize', '50x50_avatar.png') }
 
-  context 'valid path methods' do
+  context 'resize' do
 
-    before(:each) do
-      path.request_path = '/resize_image/150x150/some_dir/image.png'
+    after do
+      File.delete( resize_image_path )
     end
 
-    it { expect(path.send(:image_path?)).to eq(true) }
-
-    it { expect(path.send(:image_path)).to eq('/some_dir/image.png') }
-
-    it { expect(path.send(:dimensions)).to eq('150x150') }
-
-  end
-
-  context 'wrong path methods' do
-
-    before(:each) do
-      path.request_path = '/asdada/123acad/some_dir/imdage.png'
-    end
-
-    it { expect(path.send(:image_path?)).to eq(false) }
+    it {
+      resizer.resize('50x50', image_path, resize_image_path)
+      expect(File.exist?(resize_image_path)).to eq(true)
+    }
 
   end
 

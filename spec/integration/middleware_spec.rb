@@ -3,22 +3,25 @@ require 'spec_helper'
 describe LightResizer::Middleware do
   let(:app) { AppEmulator.new }
   let(:resizer) { described_class.new(app, ROOT, 'fixtures') }
-  let(:env) { { 'PATH_INFO' => '/image/20x20/avatar.png' } }
-  let(:path) { File.join(ROOT, 'fixtures', '20x20_avatar.png') }
+  let(:env) { { 'PATH_INFO' => '/resize_image/20x20/avatar.png' } }
+
+  let(:resize_relative_path) { '/resize/20x20_avatar.png' } #todo depends for many constant
+  let(:resize_full_path) { File.join(ROOT, 'fixtures', resize_relative_path) }
 
   after do
-    File.delete(path)
+    File.delete resize_full_path
   end
 
   it 'should create resized image' do
     resizer.call(env)
 
-    expect(File.exist?(path)).to eq(true)
+    expect(resizer.resize_request?).to eq(true)
   end
 
   it 'should return right path' do
     resizer.call(env)
 
-    expect(app.env['PATH_INFO']).to eq('/20x20_avatar.png')
+    expect(app.env['PATH_INFO']).to eq( resize_relative_path )
   end
+
 end
