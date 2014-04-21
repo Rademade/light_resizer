@@ -12,7 +12,13 @@ module LightResizer
 
       # {Bool} returns true if request path begins with 'image'
       def image_path?
-        segments[1] == 'resize_image'
+        segments[1].start_with?('resize_image')
+      end
+
+
+      # {Bool} returns true if image should be croped on resize
+      def crop_path?
+        segments[1].end_with?('crop')
       end
 
       # {String} last part of request – relative path
@@ -24,6 +30,14 @@ module LightResizer
       def dimensions
         #todo validate params!
         segments[2]
+      end
+
+      # {String} returns prefix of resized image name
+      # image.png => 200x200_crop_image.png
+      def prefix
+        crop_prefix = crop_path? ? '_crop' : ''
+
+        dimensions + crop_prefix
       end
 
       def segments

@@ -3,9 +3,9 @@ module LightResizer
   class Middleware
     class Resizer
 
-      def resize(dimensions, original_path, resize_path)
-        check_resized_dir resize_path
-        store_image dimensions, original_path, resize_path
+      def resize(dimensions, original_path, resize_path, crop)
+        check_resized_dir(resize_path)
+        store_image(dimensions, original_path, resize_path, crop)
       end
 
       private
@@ -15,15 +15,30 @@ module LightResizer
         #todo permissions?
       end
 
-      def store_image(dimensions, original_path, resize_path)
-        image = MiniMagick::Image.open original_path
-        image.combine_options do |c|
+      def store_image(dimensions, original_path, resize_path, crop)
+        @image = MiniMagick::Image.open original_path
+
+        crop ? set_crop_options(dimensions) : set_options(dimensions)
+
+        @image.write resize_path
+      end
+
+      def set_options(dimensions)
+        @image.combine_options do |c|
+          c.resize dimensions
+          c.unsharp '0x1'
+          c.add_command 'extent', dimensions
+          c.gravity 'center'
+        end
+      end
+
+      def set_crop_options(dimensions)
+        @image.combine_options do |c|
           c.resize dimensions+'^'
           c.unsharp '0x1'
           c.add_command 'extent', dimensions
           c.gravity 'center'
         end
-        image.write resize_path
       end
 
     end

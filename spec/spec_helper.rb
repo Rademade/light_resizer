@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require 'light_resizer'
 ROOT = File.dirname(__FILE__)
 

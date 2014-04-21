@@ -23,7 +23,7 @@ module LightResizer
 
     def resize_request?
         @image_loader.original_image_path = @path.image_path
-        @image_loader.resize_prefix = @path.dimensions
+        @image_loader.resize_prefix = @path.prefix
 
         @image_loader.original_image_exist?
     end
@@ -32,7 +32,7 @@ module LightResizer
 
     def resize_image_path
       unless @image_loader.resized_image_exist?
-        @resizer.resize(@path.dimensions, @image_loader.original_path, @image_loader.resize_path)
+        @resizer.resize(@path.dimensions, @image_loader.original_path, @image_loader.resize_path, @path.crop_path?)
       end
       @image_loader.resized_image_relative_path
     end
