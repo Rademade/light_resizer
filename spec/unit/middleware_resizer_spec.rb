@@ -4,7 +4,7 @@ describe LightResizer::Middleware::Resizer do
 
   let(:resizer) { described_class.new }
   let(:image_path) { File.join(ROOT, 'fixtures', 'avatar.png') }
-  let(:resize_image_path) { File.join(ROOT, 'fixtures', 'resize', image_name) }
+  let(:resize_image_path) { File.join(ROOT, 'fixtures', 'light_resize', image_name) }
 
   context 'resize' do
 

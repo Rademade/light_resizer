@@ -7,10 +7,10 @@ describe LightResizer::Middleware::Path do
   context 'valid path methods' do
 
     before(:each) do
-      path.request_path = '/resize_image/150x150/some_dir/image.png'
+      path.request_path = '/some_dir/light_resize/150x150_image.png'
     end
 
-    it { expect(path.image_path?).to eq(true) }
+    it { expect(path.image_path?).to be_true }
 
     it { expect(path.image_path).to eq('/some_dir/image.png') }
 
@@ -22,10 +22,12 @@ describe LightResizer::Middleware::Path do
 
   context 'resize with crop' do
     before(:each) do
-      path.request_path = '/resize_image_crop/150x150/some_dir/image.png'
+      path.request_path = '/some_dir/light_resize/150x150_crop_image.png'
     end
 
     it { expect(path.crop_path?).to be_true }
+
+    it { expect(path.image_path).to eq('/some_dir/image.png') }
 
     it { expect(path.dimensions).to eq('150x150') }
 
@@ -38,7 +40,7 @@ describe LightResizer::Middleware::Path do
       path.request_path = '/asdada/123acad/some_dir/imdage.png'
     end
 
-    it { expect(path.image_path?).to eq(false) }
+    it { expect(path.image_path?).to be_false }
 
   end
 

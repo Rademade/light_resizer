@@ -22,7 +22,7 @@ describe LightResizer::ImageLoader::ResizeImage do
     }
 
     it {
-      expected_path = File.join(store_dir, resized_image.resize_prefix_dir, resized_image.filename)
+      expected_path = File.join(store_dir, 'light_resize', resized_image.filename)
       expect(resized_image.send(:relative_path)).to eq( expected_path )
     }
 
@@ -32,7 +32,7 @@ describe LightResizer::ImageLoader::ResizeImage do
     }
 
     it {
-      expected_path = File.join(root_dir, store_dir, resized_image.resize_prefix_dir )
+      expected_path = File.join(root_dir, store_dir, 'light_resize' )
       expect(resized_image.send(:dir_path)).to eq( expected_path )
     }
 

@@ -3,7 +3,7 @@ module LightResizer
   class ImageLoader
     class ResizeImage
 
-      STORE_RESIZE_DIR = 'resize' #todo move to config option
+      STORE_RESIZE_DIR = 'light_resize' #todo move to config option
 
       attr_accessor :original_filename, :original_relative_dir, :resize_prefix
 

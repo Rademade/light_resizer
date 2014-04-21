@@ -14,7 +14,7 @@ describe LightResizer::ImageLoader do
 
     it { expect(image_loader.send(:original_image_exist?)).to eq(false) }
 
-    it { expect(image_loader.send(:resized_image_relative_path)).to eq('/some/dir/resize/20x20_image.png') }
+    it { expect(image_loader.send(:resized_image_relative_path)).to eq('/some/dir/light_resize/20x20_image.png') }
 
     it { expect(image_loader.send(:resized_image_exist?)).to eq(false) }
 

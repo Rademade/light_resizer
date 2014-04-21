@@ -3,6 +3,8 @@ module LightResizer
   class Middleware
     class Path
 
+      PREFIX_REGEXP = /^[0-9]+x[0-9]+(_crop)?_/
+
       attr_reader :request_path
 
       def request_path=(path)
@@ -12,35 +14,47 @@ module LightResizer
 
       # {Bool} returns true if request path begins with 'image'
       def image_path?
-        segments[1].start_with?('resize_image')
+        request_dir.end_with?('light_resize')
       end
 
 
       # {Bool} returns true if image should be croped on resize
       def crop_path?
-        segments[1].end_with?('crop')
+        prefix.end_with?('crop')
       end
 
       # {String} last part of request – relative path
       def image_path
-        '/' + segments[3..-1].join('/')
+        dir = File.expand_path('..', request_dir)
+        File.join(dir, original_filename)
       end
 
-      # {Array} returns required dimensions of image. Like a 200x200
-      def dimensions
-        #todo validate params!
-        segments[2]
-      end
 
       # {String} returns prefix of resized image name
-      # image.png => 200x200_crop_image.png
+      # 200x200_crop_image.png => 200x200_crop
       def prefix
-        crop_prefix = crop_path? ? '_crop' : ''
-
-        dimensions + crop_prefix
+        filename[PREFIX_REGEXP].chop if image_path?
       end
 
-      def segments
+      def dimensions
+        prefix.split('_').first
+      end
+
+      private
+
+      def request_dir
+        File.dirname(request_path)
+      end
+
+      def original_filename
+        filename.gsub(PREFIX_REGEXP, '')
+      end
+
+      def filename
+        File.basename(request_path)
+      end
+
+      def name_segments
         @segments ||= request_path.split('/')
       end
 

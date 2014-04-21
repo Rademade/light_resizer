@@ -16,9 +16,11 @@ module LightResizer
     def call(env)
       @path.request_path = env['PATH_INFO']
 
-      env['PATH_INFO'] = resize_image_path if @path.image_path? and resize_request?
+      resize if (@path.image_path? and resize_request?)
 
-      @app.call( env )
+      status, headers, response = @app.call( env )
+
+      [status, headers, response]
     end
 
     def resize_request?
@@ -30,11 +32,10 @@ module LightResizer
 
     private
 
-    def resize_image_path
+    def resize
       unless @image_loader.resized_image_exist?
         @resizer.resize(@path.dimensions, @image_loader.original_path, @image_loader.resize_path, @path.crop_path?)
       end
-      @image_loader.resized_image_relative_path
     end
 
   end
