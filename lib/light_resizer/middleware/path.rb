@@ -12,7 +12,7 @@ module LightResizer
 
       # {Bool} returns true if request path begins with 'image'
       def image_path?
-        segments[1] == 'resize_image'
+        segments.length > 3 and segments[1] == 'resize_image'
       end
 
       # {String} last part of request – relative path
