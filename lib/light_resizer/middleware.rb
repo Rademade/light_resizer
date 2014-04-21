@@ -18,9 +18,7 @@ module LightResizer
 
       resize if (@path.image_path? and resize_request?)
 
-      status, headers, response = @app.call( env )
-
-      [status, headers, response]
+      Rack::File.new(@image_loader.resized.root_dir).call(env)
     end
 
     def resize_request?

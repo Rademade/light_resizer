@@ -6,6 +6,7 @@ module LightResizer
       STORE_RESIZE_DIR = 'light_resize' #todo move to config option
 
       attr_accessor :original_filename, :original_relative_dir, :resize_prefix
+      attr_reader :root_dir
 
       def initialize(root_dir)
         @root_dir = root_dir
