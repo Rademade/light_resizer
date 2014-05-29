@@ -11,7 +11,7 @@ describe LightResizer::Middleware do
     after(:each) do
       File.delete(resize_full_path)
     end
-    let(:resize_relative_path) { '/light_resize/150x100_avatar.png' } #todo depends for many constant
+    let(:resize_relative_path) { '/light_resize/200x200_avatar.png' } #todo depends for many constant
 
     it 'should approve resize request' do
       resizer.call(env)
