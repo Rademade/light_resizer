@@ -29,6 +29,7 @@ module LightResizer
           c.add_command 'quality', '0'
           c.add_command 'extent', dimensions
           c.gravity 'center'
+          c.background 'transparent'
         end
       end
 
