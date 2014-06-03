@@ -16,13 +16,13 @@ describe LightResizer::Middleware do
     it 'should approve resize request' do
       resizer.call(env)
 
-      expect(resizer.resize_request?).to be_true
+      expect(resizer.resize_request?).to be_truthy
     end
 
     it 'should create resized image' do
-      expect(File.exist?(resize_full_path)).to be_false
+      expect(File.exist?(resize_full_path)).to be_falsey
       resizer.call(env)
-      expect(File.exist?(resize_full_path)).to be_true
+      expect(File.exist?(resize_full_path)).to be_truthy
     end
   end
 

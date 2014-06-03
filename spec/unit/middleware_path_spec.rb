@@ -10,7 +10,7 @@ describe LightResizer::Middleware::Path do
       path.request_path = '/some_dir/light_resize/150x150_image.png'
     end
 
-    it { expect(path.image_path?).to be_true }
+    it { expect(path.image_path?).to be_truthy }
 
     it { expect(path.image_path).to eq('/some_dir/image') }
 
@@ -27,9 +27,9 @@ describe LightResizer::Middleware::Path do
       path.request_path = '/some_dir/light_resize/150x150_crop_convert_image.png'
     end
 
-    it { expect(path.crop_path?).to be_true }
+    it { expect(path.crop_path?).to be_truthy }
 
-    it { expect(path.convert_path?).to be_true }
+    it { expect(path.convert_path?).to be_truthy }
 
     it { expect(path.image_path).to eq('/some_dir/image') }
 
@@ -46,7 +46,7 @@ describe LightResizer::Middleware::Path do
       path.request_path = '/asdada/123acad/some_dir/imdage.png'
     end
 
-    it { expect(path.image_path?).to be_false }
+    it { expect(path.image_path?).to be_falsey }
 
   end
 
