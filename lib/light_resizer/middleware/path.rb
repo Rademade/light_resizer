@@ -3,7 +3,7 @@ module LightResizer
   class Middleware
     class Path
 
-      PREFIX_REGEXP = /^[0-9]+x[0-9]+(_crop)?_/
+      PREFIX_REGEXP = /^[0-9]+x[0-9]+(_crop|_convert)*_/
 
       attr_reader :request_path
 
@@ -20,13 +20,22 @@ module LightResizer
 
       # {Bool} returns true if image should be croped on resize
       def crop_path?
-        prefix.end_with?('crop')
+        prefix =~ /crop/
+      end
+
+      # {Bool} returns true if image should be converted on resize
+      def convert_path?
+        prefix =~ /convert/
       end
 
       # {String} last part of request – relative path
       def image_path
         dir = File.expand_path('..', request_dir)
         File.join(dir, original_filename)
+      end
+
+      def image_extension
+        File.extname(request_path)
       end
 
 
@@ -51,13 +60,12 @@ module LightResizer
       end
 
       def filename
-        File.basename(request_path)
+        File.basename(request_path, '.*')
       end
 
       def name_segments
         @segments ||= request_path.split('/')
       end
-
     end
   end
 end

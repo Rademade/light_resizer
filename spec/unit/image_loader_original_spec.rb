@@ -4,7 +4,7 @@ describe LightResizer::ImageLoader::OriginalImage do
 
   let(:root_dir) { File.join(ROOT, 'fixtures') }
   let(:store_dir) { '/some/dir' }
-  let(:filename) { 'image.png' }
+  let(:filename) { 'image' }
   let(:image_full_path) { File.join(root_dir, store_dir, filename) }
   let(:original_image) { described_class.new root_dir }
 

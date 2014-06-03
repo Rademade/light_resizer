@@ -31,7 +31,7 @@ module LightResizer
 
       # {Bool} original image exist
       def image_exist?
-        File.exist? full_path
+        !Dir[full_path + '.*'].empty?
       end
 
     end

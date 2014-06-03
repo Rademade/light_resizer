@@ -3,9 +3,9 @@ module LightResizer
   class Middleware
     class Resizer
 
-      def resize(dimensions, original_path, resize_path, crop)
+      def resize(dimensions, original_path, resize_path, crop, extension, convert)
         check_resized_dir(resize_path)
-        store_image(dimensions, original_path, resize_path, crop)
+        store_image(dimensions, original_path, resize_path, crop, extension)
       end
 
       private
@@ -15,12 +15,18 @@ module LightResizer
         #todo permissions?
       end
 
-      def store_image(dimensions, original_path, resize_path, crop)
-        @image = MiniMagick::Image.open original_path
+      def store_image(dimensions, original_path, resize_path, crop, extension)
+        original_path += '.*'
+        @image = MiniMagick::Image.open Dir[original_path].first
 
+        @extension = extension[1..-1]
+
+        # WARNING: DO NOT CHANGE COMMANDS ORDER FOR @IMAGE OBJECT
+        # realy, don't do this
+        @image.format(@extension)
         crop ? set_crop_options(dimensions) : set_options(dimensions)
 
-        @image.write resize_path
+        @image.write (resize_path + extension)
       end
 
       def set_options(dimensions)

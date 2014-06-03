@@ -36,7 +36,7 @@ module LightResizer
 
     def resize
       unless @image_loader.resized_image_exist?
-        @resizer.resize(@path.dimensions, @image_loader.original_path, @image_loader.resize_path, @path.crop_path?)
+        @resizer.resize(@path.dimensions, @image_loader.original_path, @image_loader.resize_path, @path.crop_path?, @path.image_extension, @path.convert_path?)
       end
     end
 

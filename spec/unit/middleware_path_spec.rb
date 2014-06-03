@@ -12,7 +12,9 @@ describe LightResizer::Middleware::Path do
 
     it { expect(path.image_path?).to be_true }
 
-    it { expect(path.image_path).to eq('/some_dir/image.png') }
+    it { expect(path.image_path).to eq('/some_dir/image') }
+
+    it { expect(path.image_extension).to eq('.png') }
 
     it { expect(path.dimensions).to eq('150x150') }
 
@@ -22,16 +24,20 @@ describe LightResizer::Middleware::Path do
 
   context 'resize with crop' do
     before(:each) do
-      path.request_path = '/some_dir/light_resize/150x150_crop_image.png'
+      path.request_path = '/some_dir/light_resize/150x150_crop_convert_image.png'
     end
 
     it { expect(path.crop_path?).to be_true }
 
-    it { expect(path.image_path).to eq('/some_dir/image.png') }
+    it { expect(path.convert_path?).to be_true }
+
+    it { expect(path.image_path).to eq('/some_dir/image') }
+
+    it { expect(path.image_extension).to eq('.png') }
 
     it { expect(path.dimensions).to eq('150x150') }
 
-    it { expect(path.prefix).to eq('150x150_crop') }
+    it { expect(path.prefix).to eq('150x150_crop_convert') }
   end
 
   context 'wrong path methods' do
