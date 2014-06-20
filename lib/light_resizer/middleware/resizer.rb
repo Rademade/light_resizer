@@ -32,7 +32,7 @@ module LightResizer
       def set_options(dimensions)
         @image.combine_options do |c|
           c.adaptive_resize dimensions
-          c.add_command 'quality', '0'
+          c.add_command 'quality', '90'
           c.add_command 'extent', dimensions
           c.gravity 'center'
           c.background 'transparent'
@@ -42,7 +42,7 @@ module LightResizer
       def set_crop_options(dimensions)
         @image.combine_options do |c|
           c.adaptive_resize dimensions+'^'
-          c.add_command 'quality', '0'
+          c.add_command 'quality', '90'
           c.add_command 'extent', dimensions
           c.gravity 'center'
         end
