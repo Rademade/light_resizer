@@ -18,7 +18,7 @@ module LightResizer
 
       # Resized file name '150x150_image.png'
       def filename
-        resize_prefix + '_' + original_filename
+        "#{resize_prefix}_#{original_filename}"
       end
 
       # Relative resize image path '/some_dir/resize/150x150_image.png'

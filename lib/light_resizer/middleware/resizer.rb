@@ -9,6 +9,7 @@ module LightResizer
       end
 
       private
+      
       def check_resized_dir(resize_path)
         dir_name = File.dirname resize_path
         Dir.mkdir dir_name unless Dir.exist? dir_name
@@ -17,35 +18,26 @@ module LightResizer
 
       def store_image(dimensions, original_path, resize_path, crop, extension)
         original_path += '.*'
-        @image = MiniMagick::Image.open Dir[original_path].first
+        width, height = dimensions.split('x').map &:to_i
 
-        @extension = extension[1..-1]
+        @image = Magick::Image.read(Dir[original_path].first).first
+        @image.format = extension[1..-1]
 
         # WARNING: DO NOT CHANGE COMMANDS ORDER FOR @IMAGE OBJECT
-        # realy, don't do this
-        @image.format(@extension)
-        crop ? set_crop_options(dimensions) : set_options(dimensions)
+        # really, don't do this
+        crop ? crop_image(width, height) : resize_image(width, height)
 
-        @image.write (resize_path + extension)
+        @image.write(resize_path + extension)
       end
-
-      def set_options(dimensions)
-        @image.combine_options do |c|
-          c.adaptive_resize dimensions
-          c.add_command 'quality', '90'
-          c.add_command 'extent', dimensions
-          c.gravity 'center'
-          c.background 'transparent'
-        end
+      
+      def resize_image(width, height)
+        @image.resize_to_fit!(width, height)
+        @image.background_color = 'Transparent'
+        @image = @image.extent(width, height, (@image.columns - width) / 2, (@image.rows - height) / 2) # does not work with simple gravity
       end
-
-      def set_crop_options(dimensions)
-        @image.combine_options do |c|
-          c.adaptive_resize dimensions+'^'
-          c.add_command 'quality', '90'
-          c.add_command 'extent', dimensions
-          c.gravity 'center'
-        end
+      
+      def crop_image(width, height)
+        @image.resize_to_fill!(width, height)
       end
 
     end
