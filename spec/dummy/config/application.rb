@@ -13,5 +13,7 @@ require 'light_resizer'
 module Dummy
   class Application < Rails::Application
 
+    config.middleware.insert_before(Rack::Sendfile, LightResizer::Middleware, Rails.root)
+
   end
 end
