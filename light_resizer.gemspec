@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'rmagick'
   spec.add_dependency 'rack'
-  spec.add_dependency 'image_optimizer'
+  spec.add_dependency 'image_optimizer', '~> 1.3.0'
+  spec.add_dependency 'configurations', '~> 2.2.0'
 
 end

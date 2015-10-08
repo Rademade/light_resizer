@@ -12,4 +12,5 @@ group :development, :test do
   gem 'rspec'
   gem 'coveralls'
   gem 'pry'
+  gem 'carrierwave'
 end

@@ -20,7 +20,7 @@ module LightResizer
     end
 
     def resize_url_regex
-      /^(?<directory>\/.+?)\/light_resizer\/(?<crop>crop\/)?(?<width>\d+)x(?<height>\d+)\/(?<image>[^\.]+.(?<extension>\w+))$/
+      /^(?<directory>\/.+?)\/light_resizer\/(?<crop>crop\/)?(?<width>\d+)x(?<height>\d+)\/(?<image>[^\/]+)$/
     end
 
   end

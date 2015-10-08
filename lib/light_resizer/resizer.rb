@@ -18,19 +18,24 @@ module LightResizer
     protected
 
     def read_image(options)
-      original_path = "#{@public_path}#{options[:directory]}/#{options[:image]}"
-      @image = ::Magick::Image.read(original_path).first
-      @image.format = options[:extension]
+      @image = ::Magick::Image.read("#{@public_path}#{options[:directory]}/#{options[:image]}").first
     end
 
     def resize_or_crop(options)
       width = options[:width].to_i
       height = options[:height].to_i
+      check_allowed_dimension width, height
       options[:crop].nil? ? resize(width, height) : crop(width, height)
     end
 
+    def check_allowed_dimension(width, height)
+      unless LightResizer.configuration.allowed_dimensions.empty? || LightResizer.configuration.allowed_dimensions.include?([width, height])
+        raise DimensionNotFound, "Dimension #{width}x#{height} is not allowed"
+      end
+    end
+
     def resize(width, height)
-      @image.resize_to_fill!(width, height)
+      @image.resize_to_fill! width, height
     end
 
     def crop(width, height)
@@ -45,7 +50,7 @@ module LightResizer
     end
     
     def save_image(full_path)
-      @image.write(full_path)
+      @image.write full_path
       ImageOptimizer.new(full_path, quiet: true).optimize
     end
 
