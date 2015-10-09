@@ -2,30 +2,31 @@
 module LightResizer
   class Resizer
 
-    def initialize(public_path)
+    def initialize(public_path, options)
       @public_path = public_path
+      @options = options
     end
 
-    def process(options)
-      full_path = "#{@public_path}#{options}"
+    def process
+      full_path = "#{@public_path}#{@options}"
       return if File.exists? full_path
-      read_image options
-      resize_or_crop options
+      read_image
+      resize_or_crop
       create_directory File.dirname(full_path)
       save_image full_path
     end
     
     protected
 
-    def read_image(options)
-      @image = ::Magick::Image.read("#{@public_path}#{options[:directory]}/#{options[:image]}").first
+    def read_image
+      @image = ::Magick::Image.read("#{@public_path}#{@options[:directory]}/#{@options[:image]}").first
     end
 
-    def resize_or_crop(options)
-      width = options[:width].to_i
-      height = options[:height].to_i
+    def resize_or_crop
+      width = @options[:width].to_i
+      height = @options[:height].to_i
       check_allowed_dimension width, height
-      options[:crop].nil? ? resize(width, height) : crop(width, height)
+      @options[:crop].nil? ? resize(width, height) : crop(width, height)
     end
 
     def check_allowed_dimension(width, height)

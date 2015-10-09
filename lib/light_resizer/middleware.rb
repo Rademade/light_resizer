@@ -9,15 +9,11 @@ module LightResizer
 
     def call(env)
       resize_options = env['PATH_INFO'].match resize_url_regex
-      resizer.process(resize_options) unless resize_options.nil?
+      LightResizer::Resizer.new(@public_path, resize_options).process unless resize_options.nil?
       @app.call(env)
     end
 
     protected
-
-    def resizer
-      @resizer ||= LightResizer::Resizer.new(@public_path)
-    end
 
     def resize_url_regex
       /^(?<directory>\/.+?)\/light_resizer\/(?<crop>crop\/)?(?<width>\d+)x(?<height>\d+)\/(?<image>[^\/]+)$/
