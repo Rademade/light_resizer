@@ -24,21 +24,11 @@ For example we have image in public folder by next url:
 
 Url of resized image will be:
 
->example.com/images/**light_resize/100x150_kitten.jpg**
+>example.com/images/**light_resize/100x150/kitten.jpg**
 
 light_resizer will find */public/images/kitten.jpg* and create *light_resize* with resized to size of 100x150px image.
-
-If you change extension of original image:
-
->example.com/images/light_resize/100x150_kitten.**png**
-
-light_resize will convert image to a new extension.
 
 Default resize doesn't crop image and fill new space with transparent background.
 
 To crop image use '*crop*' in url:
->example.com/images/light_resize/100x150_crop_kitten.png
-
-
-
-
+>example.com/images/light_resize/crop/100x150/kitten.png

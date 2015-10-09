@@ -1,46 +1,22 @@
 # encoding: utf-8
-require 'light_resizer/image_loader'
-require 'light_resizer/middleware/path'
-require 'light_resizer/middleware/resizer'
-
 module LightResizer
   class Middleware
 
-    def initialize(app, root, folder = 'public')
-      @app           = app
-      @image_loader  = LightResizer::ImageLoader.new File.join(root, folder)
-      @path          = LightResizer::Middleware::Path.new
-      @resizer       = LightResizer::Middleware::Resizer.new
+    def initialize(app, root)
+      @app = app
+      @public_path = app.try(:public_path) || "#{root}/public"
     end
 
     def call(env)
-      @path.request_path = env['PATH_INFO']
-      if @path.image_path? and resize_request?
-      	resize
-      	Rack::File.new(@image_loader.resized.root_dir).call(env) #todo check
-      else
-      	@app.call(env)
-      end
-
+      resize_options = env['PATH_INFO'].match resize_url_regex
+      LightResizer::Resizer.new(@public_path, resize_options).process unless resize_options.nil?
+      @app.call(env)
     end
 
-    def resize_request?
-        @image_loader.original_image_path = @path.image_path
-        @image_loader.resize_prefix = @path.prefix
-        @image_loader.original_image_exist?
-    end
+    protected
 
-    private
-
-    def resize
-      @resizer.resize(
-        @path.dimensions,
-        @image_loader.original_path,
-        @image_loader.resize_path,
-        @path.crop_path?,
-        @path.image_extension,
-        @path.convert_path?
-      ) unless @image_loader.resized_image_exist?
+    def resize_url_regex
+      /^(?<directory>\/.+?)\/light_resizer\/(?<crop>crop\/)?(?<width>\d+)x(?<height>\d+)\/(?<image>[^\/]+)$/
     end
 
   end
