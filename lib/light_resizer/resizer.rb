@@ -56,7 +56,6 @@ module LightResizer
     def save_image
       image.format = IMAGE_EXTENSION
       image.write full_path
-      ImageOptimizer.new(full_path, quiet: true).optimize
     end
 
     def image

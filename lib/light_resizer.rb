@@ -4,7 +4,6 @@ require 'light_resizer/dimension_not_found'
 require 'light_resizer/middleware'
 require 'light_resizer/carrierwave_resize'
 require 'rmagick'
-require 'image_optimizer'
 require 'configurations'
 
 module LightResizer
