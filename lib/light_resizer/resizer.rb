@@ -1,8 +1,7 @@
 # encoding: utf-8
+
 module LightResizer
   class Resizer
-
-    IMAGE_EXTENSION = 'png'
 
     def initialize(public_path, options)
       @public_path = public_path
@@ -14,13 +13,19 @@ module LightResizer
       resize_or_crop
       create_directory
       save_image
-    end
-
-    def upload_path
-      @upload_path ||= "#{@options[:path]}.#{IMAGE_EXTENSION}"
+      compress_image
     end
 
     protected
+
+    def compress_image
+      LightResizer::Compressor.new(full_path).process
+    end
+
+    def compress_original_image
+      path_to_original_image = "#{@public_path}#{@options[:directory]}/#{@options[:image]}#{@options[:ext]}"
+      LightResizer::Compressor.new(path_to_original_image).process
+    end
 
     def image_exists?
       File.exists? full_path
@@ -54,7 +59,6 @@ module LightResizer
     end
     
     def save_image
-      image.format = IMAGE_EXTENSION
       image.write full_path
     end
 
@@ -63,7 +67,7 @@ module LightResizer
     end
 
     def full_path
-      @full_path ||= "#{@public_path}#{upload_path}"
+      @full_path ||= "#{@public_path}#{@options}"
     end
 
     def width

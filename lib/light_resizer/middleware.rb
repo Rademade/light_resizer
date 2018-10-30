@@ -12,7 +12,6 @@ module LightResizer
       unless resize_options.nil?
         resizer = LightResizer::Resizer.new(@public_path, resize_options)
         resizer.process
-        env['PATH_INFO'] = resizer.upload_path
       end
       @app.call(env)
     end

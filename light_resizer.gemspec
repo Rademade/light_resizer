@@ -21,5 +21,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rmagick'
   spec.add_dependency 'rack'
   spec.add_dependency 'configurations', '~> 2.2.0'
-
+  spec.add_dependency 'piet'
+  spec.add_dependency 'piet-binary'
 end
