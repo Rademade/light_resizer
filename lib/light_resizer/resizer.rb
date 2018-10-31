@@ -43,7 +43,7 @@ module LightResizer
     end
 
     def crop
-      image.resize_to_fill! width, height
+      image.resize_to_fill!(width, height, Magick::NorthGravity)
     end
 
     def resize
