@@ -10,7 +10,7 @@ module LightResizer
     end
 
     def process
-      options = { quality: LightResizer.configuration.jpeg_quality, level: LightResizer.configuration.png_compression }
+      options = { quality: LightResizer.configuration.jpeg_quality, level: LightResizer.configuration.png_compression, verbose: true }
       Piet.optimize(@path_to_file, options)
     end
 
