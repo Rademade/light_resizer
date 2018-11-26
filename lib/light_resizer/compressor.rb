@@ -11,7 +11,8 @@ module LightResizer
 
     def process
       options = { quality: LightResizer.configuration.jpeg_quality, level: LightResizer.configuration.png_compression, verbose: true }
-      Piet.optimize(@path_to_file, options)
+      result = Piet.optimize(@path_to_file, options)
+      Rails.logger.debug "Optimize passsed with result: #{result}"
     end
 
   end

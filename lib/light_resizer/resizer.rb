@@ -9,11 +9,17 @@ module LightResizer
     end
 
     def process
+      Rails.logger.debug "Inside process"
       return if image_exists?
+      Rails.logger.debug "After if"
       resize_or_crop
+      Rails.logger.debug "After resize_or_crop"
       create_directory
+      Rails.logger.debug "After create_directory"
       save_image
+      Rails.logger.debug "After save_image"
       compress_image
+      Rails.logger.debug "After compress_image, #{full_path}"
     end
 
     protected
