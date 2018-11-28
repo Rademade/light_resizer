@@ -8,8 +8,11 @@ module LightResizer
     end
 
     def call(env)
+      Rails.logger.debug "Inside middleware call"
       resize_options = env['PATH_INFO'].match resize_url_regex
+      Rails.logger.debug "resize_options: #{resize_options}"
       unless resize_options.nil?
+        Rails.logger.debug "Inside middleware if"
         resizer = LightResizer::Resizer.new(@public_path, resize_options)
         resizer.process
       end
