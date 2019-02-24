@@ -3,6 +3,8 @@
 module LightResizer
   class Resizer
 
+    IMAGE_EXTENSION = 'webp'
+
     def initialize(public_path, options)
       @public_path = public_path
       @options = options
@@ -14,6 +16,10 @@ module LightResizer
       create_directory
       save_image
       compress_image
+    end
+
+    def upload_path
+      @upload_path ||= "#{@options[:path]}.#{IMAGE_EXTENSION}"
     end
 
     protected
@@ -59,15 +65,20 @@ module LightResizer
     end
     
     def save_image
+      image.format = IMAGE_EXTENSION
       image.write full_path
     end
 
     def image
-      @image ||= ::Magick::Image.read("#{@public_path}#{@options[:directory]}/#{@options[:image]}").first
+      @image ||= ::Magick::Image.read("#{@public_path}#{@options[:directory]}/#{@options[:image]}#{@options[:ext]}").first
     end
 
     def full_path
       @full_path ||= "#{@public_path}#{@options}"
+    end
+
+    def full_path
+      @full_path ||= "#{@public_path}#{upload_path}"
     end
 
     def width
