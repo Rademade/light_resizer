@@ -3,7 +3,7 @@
 module LightResizer
   class Resizer
 
-    IMAGE_EXTENSION = 'webp'
+    IMAGE_EXTENSION = 'jpeg'
 
     def initialize(public_path, options)
       @public_path = public_path
